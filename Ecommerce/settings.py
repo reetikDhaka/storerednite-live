@@ -78,12 +78,12 @@ WSGI_APPLICATION = 'Ecommerce.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'store',
-        'USER': 'root',
-        'PASSWORD': '1234',
-        'HOST': '127.0.0.1',
-        'PORT': '3306'
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'd4snp3okgdouhr',
+        'USER': 'bglwdvxdywtyxs',
+        'PASSWORD': '0634ac453e61d97ee271bc5e8c22789ae45dadcaac836375ae8bb4b2b7bb63e1',
+        'HOST': 'ec2-44-194-183-115.compute-1.amazonaws.com',
+        'PORT': '5432'
     }
 }
 
