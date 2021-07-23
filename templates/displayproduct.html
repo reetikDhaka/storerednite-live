@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {%extends 'base.html'%}
+    {% block static_file %}
+    {%load static%}
+    <link rel="stylesheet" href="{%static 'css/display-style.css'%}">
+    {%endblock%}
+</head>
+{%block content%}
+<body>
+
+<!--<img src="{{object.image.url}}">-->
+
+<div class=" row container" style=" ">
+    <div class="col-md-5  ">
+        <img src="{{object.image.url}}" class="product-image border border-primary">
+    </div>
+    <div class="col-md-5 details">
+        <h4 class="product-title">{{object.name}}</h4>
+        <a href="" class="store-name">Visit abc electronics</a>
+        <p class="price"><i class="fa fa-inr"></i>{{object.price}} </p>
+         <span class="fa fa-star checked"></span>
+         <span class="fa fa-star checked"></span>
+         <span class="fa fa-star checked"></span>
+         <span class="fa fa-star"></span>
+         <span class="fa fa-star"></span>
+    </div>
+    <div class="col-md-2 border addcontainer" style="border-radius:23px; " >
+        <p class="price2"><i class="fa fa-inr"></i>{{object.price}}<small>
+            +shipping charges</small>
+        </p>
+        <p class="dateclass">arries at date- <b>02/02/2021</b></p>
+        {%if object.available == True%}
+           <h5 class="instock" style="color:green;">In stock</h5>
+        {%else %}
+           <h5 class="instock" style="color:red;">Out stock</h5>
+        {%endif%}
+        <div class="buttons">
+             {%if object.available == False%}
+            <a href="" class="btn btn-primary" id="view-btn">Buy Now</a>
+            <button disabled data-product = "{{object.id}}" data-action="add" class="btn btn-warning update-cart" id="addbtn">
+            <i class="fa fa-shopping-cart" aria-hidden="true"></i>AddToCart</button>
+            {%else%}
+            <a href="" class="btn btn-primary" id="view-btn">Buy Now</a>
+            <button  data-product = "{{object.id}}" data-action="add" class="btn btn-warning update-cart" id="addbtn">
+            <i class="fa fa-shopping-cart" aria-hidden="true"></i>AddToCart</button>
+            {%endif%}
+        </div>
+    </div>
+
+</div>
+
+
+</body>
+{%endblock%}
+</html>

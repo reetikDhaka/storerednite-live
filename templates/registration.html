@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<head>
+    {%extends 'base.html'%}
+    {%block nav%}
+    {%endblock%}
+    {%block content%}
+<style>
+   
+    body{
+        background-color: rgb(238, 241, 238);
+    }
+  .container{
+      display: flex;
+      margin:auto;
+      background-color:rgb(194, 194, 240,0.2);  
+  }
+  .box{
+      margin:auto;
+      border:burlywood 1px solid;
+      border-radius: 10px;
+      padding: 20%;   
+  }
+  .formbox{
+      font-size: xx-large;
+      margin:auto;
+  }
+  .login-title{
+  
+   font-size: xx-large;
+  }
+.link{
+text-decoration: none;
+font-size: small;
+
+}
+.link:hover{
+    color: crimson;
+}
+.login-btn:hover{
+    background-color:rgba(94, 131, 233, 0.616);
+}
+.username,.password{
+    margin-bottom: 5%;
+    width: 140%;
+}
+.error{
+    transition: 1s ease;
+    
+}
+</style>
+</head>
+<body>
+<div class="container">
+    <div class="box" >
+        <form method="POST" class="formbox" onsubmit=>
+            {%csrf_token%}
+            <h3 class="login-title">Create Your Account</h3>
+            <div class="username ">
+                
+                {{form.username}}
+            </div>
+            <div class="password try ">
+                {{form.password1}}
+            </div>
+            <div class="password ">
+                {{form.password2}}
+            </div>
+         
+            <button type="submit" class="login-btn btn btn-primary">Create</button>
+        </form>       
+        {%for message in messages%}
+        <div class="alert alert-danger error" role="alert">
+            {{message}}
+          </div>   
+        {%endfor%}
+    
+    </div>
+     
+</div>
+<a class="btn btn-success" href="{%url 'login-page'%}" style="margin: auto; display: block; width:40%;">Back To Login Page</a>
+</body>
+<script>
+
+      
+
+    
+</script>
+
+{%endblock%}
+</html>

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+{% block static_file %}
+ {% load static%}
+ <link rel="stylesheet" href="{% static 'css/home-style.css'%}">
+<link rel="shortcut icon" href="#">
+
+{% endblock %}
+<body>
+    {%block content%}
+
+    <style>
+        .red{
+            background-color: red;
+        }
+        .overlay {
+  position: relative;
+  bottom: 0;
+  background: rgba(231, 77, 77, 0.5); /* Black see-through */
+  color: #f1f1f1;
+  width: 100%;
+  transition: .5s ease;
+  opacity:0;
+  color: white;
+  font-size: 20px;
+  padding: px;
+  text-align: center;
+}
+
+/* When you mouse over the container, fade in the overlay title */
+.card-body:hover .overlay {
+  opacity: 1;
+}
+ 
+    </style>
+        <h1>Store1</h1>
+<h2>Hy {{request.user}}</h2>
+<a href="/logout" class="btn btn-danger logout-btn" style="text-decoration: none;">Logout</a>
+<div class="container">
+    <div class="row">
+        <!--begin loop-->
+        {%for product in products%}
+        <div class="col-md-3">
+            <div class="card" style="width:18rem; margin:10px;">
+                <div class="card-body">
+                    <div class="container">
+                        <img src="{{product.image.url}}" style="width:15rem; height:16rem;">
+                        {%if product.available == False%}
+                        <div class="overlay">OutofStock</div>
+                        {%endif%}
+                    </div>
+                    <h5 class="card-title">{{product.name}}</h5>
+                    <h6 class="price"><i class="fa fa-inr"></i>{{product.price}}</h6>
+                    <a href="product/{{product.slug}}" class="btn btn-primary " id="view-btn">View</a>
+                    {%if product.available == True%}
+                        <button data-product = "{{product.id}}" data-action="add" class="btn btn-warning update-cart" 
+                        id="addbtn"><i class="fa fa-shopping-cart" aria-hidden="true"></i>AddToCart</button>
+                     {%else%}
+                     <button disabled class="btn btn-warning"><i class="fa fa-shopping-cart"></i>AddToCart</button>
+                     {%endif%}
+
+</div>        
+            </div>
+        </div>
+        {%endfor%}
+    </div>
+</div>
+<a href="#" class="btn btn-primary " id="view-btn">Up</a>
+<a href="" class="link-danger " id="view-btn">2</a>
+
+<script>
+let cartbtns = document.getElementsByClassName('update-cart');
+console.log('hello');
+//let cartbtns = document.querySelector('.update-cart');
+for(var i=0; i<cartbtns.length;i++){
+    cartbtns[i].addEventListener('click', function(){
+       productId = this.dataset.product;
+       action = this.dataset.action;
+       console.log(productId)
+       if (user == 'AnonymousUser')
+       {
+       addCookieItem(productId,action)
+       
+        }
+       else {
+          
+        updateCart(productId,action)
+        
+       }
+    }
+    );
+}
+//for logged in user
+function updateCart(productId,action){
+ 
+   console.log('api workingdfsdf');
+   let url = '/update-cart';
+   fetch(url,{
+       method:'POST',
+       headers:{
+         'Content-Type': 'application/json',
+         'X-CSRFToken': csrftoken,
+       },
+       body: JSON.stringify({'productId' :productId, 'action' :action})
+   })
+   .then((response)=> {
+      return response.json()
+   })
+   .then((data)=>{
+     document.location.reload()
+   })
+}
+
+//for annoynmous user
+function addCookieItem(productId,action){
+   console.log('not logged in.')
+   if (action == 'add'){
+      if(cart[productId] == undefined){
+         cart[productId] = {'quantity':1};
+         console.log('creating if')
+      }
+      else{
+         cart[productId]['quantity']+=1;
+      }
+     // console.log(cart)
+     console.log('Cart:', cart)
+   }
+   if (action=='remove'){
+      cart[productId]['quantity']-=1
+      if (cart[productId]['quantity']<=0){
+         console.log('delting item')
+         delete cart[productId]
+       
+      }
+
+   }
+
+}
+
+//to try
+
+</script>
+
+</body>
+{%endblock%}
+</html>

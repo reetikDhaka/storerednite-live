@@ -1,0 +1,44 @@
+
+
+img.product-image{
+width:90%;
+
+}
+.details {
+ padding-left:40px;
+
+}
+.details h4,p{
+font-size:300%;
+
+}
+span.fa-star{
+font-size:200%;
+}
+.checked{
+color:skyblue;
+}
+.store-name{
+text-decoration:none;
+font-size:80%;
+font-weight:bold;
+color:skyblue;
+padding:0 12px ;
+
+}
+.addcontainer{
+  padding:10px;
+
+}
+.price2{
+font-size:large;
+
+}
+.dateclass{
+font-size:small;
+
+}
+#view-btn{
+margin-bottom:10px;
+
+}

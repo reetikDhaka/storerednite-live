@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {% extends 'base.html'%}
+    {%block static_file%}
+    {%load static%}
+    <link rel="stylesheet" href="{%static 'css/cart-style.css'%}">
+    {%endblock%}
+</head>
+<body>
+{%block content%}
+<div class="order-detail flex-container ">
+    <div class="card shippingdetails flex-child">
+ <form>
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <label for="inputEmail4">Email</label>
+      <input type="email" class="form-control" id="inputEmail4" placeholder="Email">
+    </div>
+    <label>Address</label>
+      <br>
+      <textarea class="form-control" placeholder="Shipping Adress"></textarea>
+      <input type="submit" value="Ok" class="btn btn-primary">
+  </div>
+ </form>
+
+</div>
+<div class="card ordersummary flex-child" style="margin-left:10px; width:122px;">
+  <div class="card-header">
+      <h2>Order Summary</h2>
+      <! single item-->
+   <div class="column">
+       {%for item in items%}
+      <div class="card  " style="width:12rem; height:10rem; margin:12px;">
+          <img src="{{item.product.image.url}}" style="width:40%; height:40%; ">
+          <div class="card-body">
+              <h5>{{item.product.name}}</h5>
+              <p>X{{item.quantity}}</p>
+
+          </div>
+      </div>
+       {%endfor%}
+       <!card end here-->
+  </div>
+<div class="col-md-3 finaltotal">
+    <h5>Items:{{order.get_cart_items}}</h5>
+    <h5>Total:<i class="fa fa-inr"></i>{{order.get_cart_total}}</h5>
+</div>
+</div>
+
+</div>
+
+</div>
+<button class="btn btn-warning">Payment Options</button>
+<a href="/cart" type="button" class="btn">Back To Cart</a>
+
+
+{%endblock%}
+
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {%extends 'base.html'%}
+</head>
+<body>
+{%block content%}
+
+
+
+<button class="btn btn-success clickbtn" id="new">click Me</button>
+<br>
+<br>
+<button data-username="{{request.user}}" data-action="liked" class="btn btn-primary" id='like'>Like Me</button>
+<script>
+    let user = '{{request.user}}';
+    function getToken(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+const csrftoken = getToken('csrftoken');
+</script>
+{%load static%}
+<script src="{%static 'js/demo.js'%}"></script>
+
+{%endblock%}
+</body>
+</html>

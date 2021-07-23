@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {%extends 'base.html'%}
+</head>
+<body>
+{%block content%}
+
+
+<h1>Your Cart</h1>
+<h5>Hy {{request.user}}</h5>
+<div class="container mt-5 p-3 rounded cart">
+    <div class="row no-gutters">
+        <div class="col-md-8">
+            <div class="product-details mr-2">
+                <div class="d-flex flex-row align-items-center"><a href="." style="text-decoration:none; color:black;"><i class="fa fa-long-arrow-left"></i><span class="ml-2">Continue Shopping</span></a></div>
+                <hr>
+                <h6 class="mb-0">Shopping cart</h6>
+                <div class="d-flex justify-content-between"><span>You have {{order.get_cart_items}}items in your cart</span>
+                    <div class="d-flex flex-row align-items-center"><span class="text-black-50">Sort by:</span>
+                        <div class="price ml-2"><span class="mr-1">price</span><i class="fa fa-angle-down"></i></div>
+                    </div>
+                </div>
+                <!--single item-->
+                {%for item in items %}
+                <div class="d-flex justify-content-between align-items-center mt-3 p-2 items rounded">
+                    <div class="d-flex flex-row"><img class="rounded" src="{{item.product.image.url}}" width="40">
+                        <div class="ml-2"><span class="font-weight-bold d-block">{{item.product.name}}</span><span class="spec"></span></div>
+                    </div>
+                    <div class="" style="margin:auto; display:flex; position:absolute; right:60%;">
+                        <button  class="increasequantiy update-cart" data-product="{{item.product.id}}" data-action="add" style="text-decoration:none; color:black;border:none; "><i class="fa fa-arrow-up fa-lg" aria-hidden="true"></i></button>
+                        <button  class="decreasequantiy update-cart" data-product="{{item.product.id}}" data-action="remove" style="text-decoration:none; color:black; border:none; "><i class="fa fa-arrow-down fa-lg" aria-hidden="true"></i></button>
+                    </div>
+                    <div class="d-flex flex-row align-items-center" >
+                        <span class="d-block" style="margin:auto; padding:20px;">{{item.quantity}}X</span><br class="d-block ml-5 font-weight-bold"><i class="fa fa-inr">{{item.product.price}}</i>
+                        </span>
+
+                        <button class="update-cart" data-product="{{item.product.id}}" data-action="delete" style="border:none; margin-left:20px; border:none;">  <i class="fa fa-trash-o ml-3 text-black-50" style="padding:10px;"></i></button>
+                    </div>
+                </div>
+                {%endfor%}
+               <!--end here-->
+
+</div>
+        </div>
+      <h5>Total: <i class="fa fa-inr"></i>{{order.get_cart_total}}</h5>
+
+    <a href="/checkout" class="btn btn-success">Proceed To Checkout</a>
+</div>
+</div>
+</body>
+<script>
+  //document.location.reload();
+  let cartbtns = document.getElementsByClassName('update-cart');
+console.log('hello');
+//let cartbtns = document.querySelector('.update-cart');
+for(var i=0; i<cartbtns.length;i++){
+    cartbtns[i].addEventListener('click', function(){
+       productId = this.dataset.product;
+       action = this.dataset.action;
+       console.log(productId)
+       if (user == 'AnonymousUser')
+       {
+       addCookieItem(productId,action)
+       
+        }
+       else {
+          
+        updateCart(productId,action)
+        
+       }
+    }
+    );
+}
+//for logged in user
+function updateCart(productId,action){
+ 
+   console.log('api workingdfsdf');
+   let url = '/update-cart';
+   fetch(url,{
+       method:'POST',
+       headers:{
+         'Content-Type': 'application/json',
+         'X-CSRFToken': csrftoken,
+       },
+       body: JSON.stringify({'productId' :productId, 'action' :action})
+   })
+   .then((response)=> {
+      return response.json()
+   })
+   .then((data)=>{
+     document.location.reload()
+   })
+}
+
+//for annoynmous user
+function addCookieItem(productId,action){
+   console.log('not logged in.')
+   if (action == 'add'){
+      if(cart[productId] == undefined){
+         cart[productId] = {'quantity':1};
+         console.log('creating if')
+      }
+      else{
+         cart[productId]['quantity']+=1;
+      }
+     // console.log(cart)
+     console.log('Cart:', cart)
+   }
+   if (action=='remove'){
+      cart[productId]['quantity']-=1
+      if (cart[productId]['quantity']<=0){
+         console.log('delting item')
+         delete cart[productId]
+       
+      }
+
+   }
+
+}
+</script>
+{%endblock%}
+</html>
