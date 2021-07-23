@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-l49lf3e0z*22kw&--snt(x-(piq!hajoqt_km_6haw(d=07mrs
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['https://storerednite1.herokuapp.com','127.0.0.1']
+ALLOWED_HOSTS = ['https://storerednite1.herokuapp.com','127.0.0.1',".herokuapp.com","storerednite1.herokuapp.com"]
 
 
 # Application definition
